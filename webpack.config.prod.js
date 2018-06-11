@@ -1,7 +1,8 @@
 import path from 'path';
 // import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+// import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default {
   devtool: 'source-map',
@@ -31,8 +32,14 @@ export default {
   plugins: [
     // Generate an external css file with a hash in the filename
     //new ExtractTextPlugin('[name].[contenthash].css'),
-    new ExtractTextPlugin({
-      filename: '[name].[hash].css', disable: false, allChunks: true
+    // new ExtractTextPlugin({
+    //   filename: '[name].[hash].css', disable: false, allChunks: true
+    // }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].css"
     }),
     // Create HTML file that includes reference to bundled JS.
     new HtmlWebpackPlugin({
@@ -50,21 +57,25 @@ export default {
         minifyURLs: true
       },
       inject: true
-      // Properties you define here are available in index.html
-      // using htmlWebpackPlugin.options.varName
-      // trackJSToken: '43ad216f57d94259968435894490a5c7'
     })
   ],
   module: {
     rules: [
       {test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader']},
+      // {
+      //   test: /\.css$/,
+      //   use: ExtractTextPlugin.extract(
+      //     {
+      //       fallback: 'style-loader',
+      //       use: ['css-loader?sourceMap']
+      //     })
+      // },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract(
-          {
-            fallback: 'style-loader',
-            use: ['css-loader?sourceMap']
-          })
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
       }
     ]
   }
