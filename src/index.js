@@ -1,4 +1,4 @@
-import './index.css';
+import './index.scss';
 
 import {getUsers, deleteUser} from './api/userApi';
 
