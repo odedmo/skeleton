@@ -2,7 +2,12 @@ import './index.scss';
 
 import {getUsers, deleteUser} from './api/userApi';
 
-// // Populate table of users via API call.
+// Enable live reload
+if (module && module.hot) {
+  module.hot.accept();
+}
+
+// Populate table of users via API call.
 getUsers().then(result => {
   let usersBody = "";
 
