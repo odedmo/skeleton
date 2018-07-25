@@ -1,5 +1,7 @@
 export default function getBaseUrl() {
-  return getQueryStringParameterByName('useMockApi') ? 'http://localhost:3001/' : '/';//'https://mysterious-dawn-16770.herokuapp.com/';
+  // module.hot exists only in dev env
+  let domain = module && module.hot ? 'http://localhost:3000/' : 'https://mysterious-dawn-16770.herokuapp.com/';
+  return getQueryStringParameterByName('useMockApi') ? 'http://localhost:3001/' : domain;
 }
 
 function getQueryStringParameterByName(name, url) {
